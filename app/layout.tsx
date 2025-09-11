@@ -5,6 +5,7 @@ import Script from "next/script"
 import ChatBot from "@/components/ChatBot"
 import Navbar from "@/components/navbar"
 import Footer from "@/components/footer"
+import FacebookPixel from "@/components/FacebookPixel"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -32,6 +33,7 @@ export default function RootLayout({
         </Script>
       </head>
       <body className={inter.className}>
+        <FacebookPixel pixelId={process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID || ''} />
         <ThemeProvider
           attribute="class"
           defaultTheme="light"

@@ -9,8 +9,20 @@ import MemberVideoShowcase from "@/components/member-video-showcase"
 import RestaurantPartners from "@/components/restaurant-partners"
 import CommunicationSection from "@/components/communication-section"
 import GroupingProcess from "@/components/grouping-process"
+import { trackSignUpClick, trackPageView } from "@/components/FacebookPixel"
+import { useEffect } from "react"
 
 export default function Home() {
+  // Track page view when component mounts
+  useEffect(() => {
+    trackPageView('Homepage')
+  }, [])
+
+  // Handle sign-up button clicks
+  const handleSignUpClick = (source: string) => {
+    trackSignUpClick(source)
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
@@ -30,7 +42,12 @@ export default function Home() {
               </p>
               <div className="flex flex-row gap-3">
                 <Button asChild size="lg" className="bg-green-600 hover:bg-green-700">
-                  <Link href="https://app.50pluscircle.com/auth/sign-up">Sign Up Now</Link>
+                  <Link 
+                    href="https://app.50pluscircle.com/auth/sign-up"
+                    onClick={() => handleSignUpClick('hero-section')}
+                  >
+                    Sign Up Now
+                  </Link>
                 </Button>
                 <Button asChild variant="outline" size="lg">
                   <Link href="#how-it-works">Learn How It Works</Link>
@@ -160,7 +177,12 @@ export default function Home() {
                 <Link href="https://app.50pluscircle.com/auth">Login</Link>
               </Button>
               <Button asChild size="lg" className="bg-white text-green-600 hover:bg-gray-100">
-                <Link href="https://app.50pluscircle.com/auth/sign-up">Sign Up Now</Link>
+                <Link 
+                  href="https://app.50pluscircle.com/auth/sign-up"
+                  onClick={() => handleSignUpClick('cta-section')}
+                >
+                  Sign Up Now
+                </Link>
               </Button>
             </div>
           </div>
