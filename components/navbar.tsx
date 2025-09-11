@@ -5,8 +5,14 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Menu, X } from "lucide-react"
 import Image from "next/image"
+import { trackSignUpClick } from "@/components/FacebookPixel"
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false)
+
+  // Handle sign-up button clicks
+  const handleSignUpClick = (source: string) => {
+    trackSignUpClick(source)
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
@@ -35,7 +41,12 @@ export default function Navbar() {
             <Link href="https://app.50pluscircle.com/auth">Login</Link>
           </Button>
           <Button asChild className="bg-green-600 hover:bg-green-700">
-            <Link href="https://app.50pluscircle.com/auth/sign-up">Sign Up</Link>
+            <Link 
+              href="https://app.50pluscircle.com/auth/sign-up"
+              onClick={() => handleSignUpClick('navbar-desktop')}
+            >
+              Sign Up
+            </Link>
           </Button>
         </div>
 
@@ -82,7 +93,15 @@ export default function Navbar() {
                 <Link href="https://app.50pluscircle.com/auth">Login</Link>
               </Button>
               <Button asChild className="w-full bg-green-600 hover:bg-green-700">
-                <Link href="https://app.50pluscircle.com/auth/sign-up">Sign Up</Link>
+                <Link 
+                  href="https://app.50pluscircle.com/auth/sign-up"
+                  onClick={() => {
+                    handleSignUpClick('navbar-mobile')
+                    setIsMenuOpen(false)
+                  }}
+                >
+                  Sign Up
+                </Link>
               </Button>
             </div>
           </div>
