@@ -84,20 +84,41 @@ export default function MemberVideoShowcase({
     }
   }, [isPlayerReady, videoType])
 
+  // Check if Vimeo API is loaded
+  useEffect(() => {
+    if (videoType === 'vimeo') {
+      const checkVimeoAPI = () => {
+        if (typeof window !== 'undefined' && window.Vimeo && window.Vimeo.Player) {
+          console.log('Vimeo Player API is ready')
+        } else {
+          console.log('Vimeo Player API not yet loaded, retrying...')
+          setTimeout(checkVimeoAPI, 100)
+        }
+      }
+      checkVimeoAPI()
+    }
+  }, [videoType])
+
   const initializePlayer = (iframe: HTMLIFrameElement) => {
     if (typeof window === 'undefined' || !iframe) return;
     
-    try {
-      if (window.Vimeo && window.Vimeo.Player) {
-        const player = new window.Vimeo.Player(iframe)
-        playerRef.current = player
-        setIsPlayerReady(true)
-      } else {
-        console.error('Vimeo Player API not loaded')
+    const tryInitialize = () => {
+      try {
+        if (window.Vimeo && window.Vimeo.Player) {
+          const player = new window.Vimeo.Player(iframe)
+          playerRef.current = player
+          setIsPlayerReady(true)
+          console.log('Vimeo player initialized successfully')
+        } else {
+          console.log('Vimeo Player API not yet available, retrying in 100ms...')
+          setTimeout(tryInitialize, 100)
+        }
+      } catch (error) {
+        console.error('Error initializing Vimeo player:', error)
       }
-    } catch (error) {
-      console.error('Error initializing Vimeo player:', error)
     }
+    
+    tryInitialize()
   }
 
   const handleLocalVideoPlay = () => {
@@ -113,9 +134,9 @@ export default function MemberVideoShowcase({
       {videoType === 'vimeo' && (
         <Script 
           src="https://player.vimeo.com/api/player.js"
-          strategy="afterInteractive"
+          strategy="beforeInteractive"
           onLoad={() => {
-            console.log('Vimeo Player API loaded')
+            console.log('Vimeo Player API loaded successfully')
           }}
           onError={(e) => {
             console.error('Error loading Vimeo Player API:', e)

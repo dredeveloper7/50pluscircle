@@ -140,9 +140,9 @@ export default function Home() {
 
       {/* Member Video Showcase */}
       <MemberVideoShowcase 
-        videoType="local"
-        localVideoSrc="/Mark Goodwill.MOV"
-        memberName="Mark Goodwill"
+        videoType="vimeo"
+        videoId="1124001347"
+        memberName="50pluscircle Member"
         memberQuote="These dinner gatherings have transformed how I connect with other like-minded people in my city."
       />
 
